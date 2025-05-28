@@ -1,3 +1,7 @@
+"""
+This script defines an InstagramBot for automating Instagram actions using Selenium.
+It includes functionalities for logging in and liking photos based on hashtags.
+"""
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
@@ -6,6 +10,14 @@ import sys
 
 
 def print_same_line(text):
+    """
+    Prints the given text on the same line in the console, overwriting previous content.
+
+    This is used to display status updates without cluttering the console output.
+
+    Args:
+        text (str): The text to print on the same line.
+    """
     sys.stdout.write('\r')
     sys.stdout.flush()
     sys.stdout.write(text)
@@ -13,16 +25,40 @@ def print_same_line(text):
 
 
 class InstagramBot:
+    """
+    A class to encapsulate Instagram bot functionalities.
+
+    This bot can automate actions such as logging into an Instagram account
+    and liking photos based on specified hashtags. It uses Selenium WebDriver
+    to interact with the Instagram website.
+    """
 
     def __init__(self, username, password):
+        """
+        Initializes the InstagramBot.
+
+        Sets up the username, password, and initializes a Firefox WebDriver instance.
+
+        Args:
+            username (str): The Instagram username.
+            password (str): The Instagram password.
+        """
         self.username = username
         self.password = password
         self.driver = webdriver.Firefox()
 
     def closeBrowser(self):
+        """Closes the WebDriver browser session."""
         self.driver.close()
 
     def login(self):
+        """
+        Logs the user into Instagram using the provided credentials.
+
+        Navigates to the Instagram login page, finds the username and password
+        fields, enters the credentials, and submits the form.
+        Selenium exceptions might occur if elements are not found on the page.
+        """
         driver = self.driver
         driver.get("https://www.instagram.com/")
         time.sleep(2)
@@ -40,6 +76,19 @@ class InstagramBot:
 
 
     def like_photo(self, hashtag):
+        """
+        Likes photos under a given hashtag.
+
+        Navigates to the explore page for the specified hashtag, scrolls down to
+        load multiple photos, and then iterates through the gathered photo links,
+        visiting each photo's page and attempting to click the 'Like' button.
+
+        Args:
+            hashtag (str): The hashtag to search for and like photos under.
+
+        Selenium exceptions might occur if elements (like photo links or the
+        like button) are not found or if navigation fails.
+        """
         driver = self.driver
         driver.get("https://www.instagram.com/explore/tags/" + hashtag + "/")
         time.sleep(2)
